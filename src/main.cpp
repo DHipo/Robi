@@ -48,11 +48,11 @@ const float CIRCUNFERENCIA = 3.1416 * DIAMETRO_RUEDA;
 const float DISTANCIA_POR_PULSO = CIRCUNFERENCIA / PULSOS_POR_VUELTA;
 
 // ========== PARÁMETROS DE LA PISTA ==========
-const float TAMANO_CASILLA = 170.0;
+const float TAMANO_CASILLA = 56.6;
 
 // ========== CALIBRACIÓN PARA GIRO 90° ==========
 const int PULSOS_GIRO_90 = 7;
-const int VELOCIDAD_GIRO = 80;
+const int VELOCIDAD_GIRO = 8;
 
 // ========== CALIBRACIÓN PARA AVANCE DE 170cm ==========
 const int PULSOS_AVANCE_170CM = (int)(TAMANO_CASILLA / DISTANCIA_POR_PULSO);
@@ -307,20 +307,8 @@ void moveForwardCalibratedDistance() {
   
   while (true) {
     // *** VERIFICACIÓN CONTINUA DE SEGURIDAD ***
-    if (checkSafetyZone()) {
-      Serial.println("⚠  PERSONA DETECTADA DURANTE MOVIMIENTO");
-      Serial.println("🔴 ESTADO: BLOQUEADO");
-      stopMotors();
-      waitForClearPath();
-      
-      // Reanudar movimiento
-      Serial.println("🟢 ESTADO: LIBRE - Reanudando avance");
-      motorL.setSpeed(velocidadActualL);
-      motorR.setSpeed(velocidadActualR);
-      motorL.forward();
-      motorR.forward();
-    }
     
+  
     noInterrupts();
     unsigned int pulsosL = cntL;
     unsigned int pulsosR = cntR;
