@@ -62,12 +62,12 @@ const int BASE_SPEED = 102;
 const int MIN_SPEED = 43;
 const int MAX_SPEED = 217;
 
-int pwmL = 100;
-int pwmR = 125;
+int pwmL = 70;
+int pwmR = 95;
 
 // ========== PARÁMETROS DE DESACELERACIÓN ==========
 const int PULSOS_INICIO_DECEL = 6;
-const int VELOCIDAD_MINIMA_DECEL = 60;
+const int VELOCIDAD_MINIMA_DECEL = 40;
 
 // Control PID
 const unsigned long CONTROL_INTERVAL_MS = 200;
@@ -662,10 +662,13 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(HALL_L), onHallL, CHANGE);
   attachInterrupt(digitalPinToInterrupt(HALL_R), onHallR, CHANGE);
   Serial.println("✓ Sensores Hall configurados");
+  findInitialPosition();
+  //adelante
   motorL.setSpeed(pwmL);
   motorR.setSpeed(pwmR);
-  motorL.runFor(5000, L298N::Direction::FORWARD);
-  motorR.runFor(5000, L298N::Direction::FORWARD);
+  navigateToTarget();
+
+
 }
 
 void loop() {
